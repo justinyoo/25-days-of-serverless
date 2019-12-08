@@ -1,0 +1,616 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "locationCode": {
+      "type": "string",
+      "metadata": {
+        "description": "Location code where the resource is provisioned."
+      }
+    },
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of Storage Account"
+      }
+    },
+    "storageAccountSkuName": {
+      "type": "string",
+      "metadata": {
+        "description": "SKU Name of the Storage Account."
+      },
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_GRS",
+        "Standard_ZRS",
+        "Standard_RGRS"
+      ],
+      "defaultValue": "Standard_LRS"
+    },
+    "storageAccountSkuTier": {
+      "type": "string",
+      "metadata": {
+        "description": "SKU family of the Storage Account."
+      },
+      "defaultValue": "Standard"
+    },
+    "storageAccountBlobServiceName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the blob service."
+      },
+      "defaultValue": "default"
+    },
+    "storageAccountBlobContainer": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the blob containers."
+      },
+      "defaultValue": "backups"
+    },
+    "appInsightsName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Application Insights."
+      }
+    },
+    "appInsightsKind": {
+      "type": "string",
+      "metadata": {
+        "description": "The type of Application Insights instance."
+      },
+      "allowedValues": [
+        "other",
+        "web"
+      ],
+      "defaultValue": "web"
+    },
+    "consumptionPlanName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Consumption Plan."
+      }
+    },
+    "consumptionPlanKind": {
+      "type": "string",
+      "metadata": {
+        "description": "Kind of the Consumption Plan."
+      },
+      "allowedValues": [
+        "functionapp"
+      ],
+      "defaultValue": "functionapp"
+    },
+    "consumptionPlanSkuTier": {
+      "type": "string",
+      "metadata": {
+        "description": "SKU tier for the Consumption Plan."
+      },
+      "allowedValues": [
+        "Dynamic"
+      ],
+      "defaultValue": "Dynamic"
+    },
+    "consumptionPlanSkuSize": {
+      "type": "string",
+      "metadata": {
+        "description": "SKU size for the Consumption Plan."
+      },
+      "allowedValues": [
+        "Y1"
+      ],
+      "defaultValue": "Y1"
+    },
+    "consumptionPlanSkuName": {
+      "type": "string",
+      "metadata": {
+        "description": "SKU name for the Consumption Plan."
+      },
+      "allowedValues": [
+        "Y1"
+      ],
+      "defaultValue": "Y1"
+    },
+    "consumptionPlanSkuFamily": {
+      "type": "string",
+      "metadata": {
+        "description": "SKU family for the Consumption Plan."
+      },
+      "allowedValues": [
+        "Y"
+      ],
+      "defaultValue": "Y"
+    },
+    "consumptionPlanSkuCapacity": {
+      "type": "int",
+      "metadata": {
+        "description": "SKU capacity for the Consumption Plan."
+      },
+      "minValue": 0,
+      "maxValue": 0,
+      "defaultValue": 0
+    },
+    "functionAppName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Function App."
+      }
+    },
+    "functionAppKind": {
+      "type": "string",
+      "metadata": {
+        "description": "Kind of the Function App."
+      },
+      "allowedValues": [
+        "functionapp"
+      ],
+      "defaultValue": "functionapp"
+    },
+    "functionAppSecretStorageType": {
+      "type": "string",
+      "metadata": {
+        "description": "Secret storage type of the Function App."
+      },
+      "allowedValues": [
+        "Blob",
+        "Files"
+      ],
+      "defaultValue": "Blob"
+    },
+    "functionAppExtensionVersion": {
+      "type": "string",
+      "metadata": {
+        "description": "Extension version of the Function App."
+      },
+      "allowedValues": [
+        "~1",
+        "~2"
+      ],
+      "defaultValue": "~2"
+    },
+    "functionAppEditMode": {
+      "type": "string",
+      "metadata": {
+        "description": "Edit mode of the Function App."
+      },
+      "allowedValues": [
+        "readonly",
+        "readwrite"
+      ],
+      "defaultValue": "readonly"
+    },
+    "functionAppWorkerRuntime": {
+      "type": "string",
+      "metadata": {
+        "description": "Worker runtime of the Function App."
+      },
+      "allowedValues": [
+        "dotnet",
+        "node",
+        "java"
+      ],
+      "defaultValue": "dotnet"
+    },
+    "keyVaultNames": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Key Vault, delimited by comma."
+      }
+    },
+    "keyVaultSkuName": {
+      "type": "string",
+      "metadata": {
+        "description": "SKU Name of the Key Vault."
+      },
+      "defaultValue": "Standard"
+    },
+    "keyVaultSkuFamily": {
+      "type": "string",
+      "metadata": {
+        "description": "SKU family of the Key Vault."
+      },
+      "defaultValue": "A"
+    },
+    "keyVaultEnabledForDeployment": {
+      "type": "bool",
+      "metadata": {
+        "description": "Value indicating whether to enable Key Vault for deployment or not."
+      },
+      "defaultValue": false
+    },
+    "keyVaultEnabledForDiskEncryption": {
+      "type": "bool",
+      "metadata": {
+        "description": "Value indicating whether to enable Key Vault for disk encryption or not."
+      },
+      "defaultValue": false
+    },
+    "keyVaultEnabledForTemplateDeployment": {
+      "type": "bool",
+      "metadata": {
+        "description": "Value indicating whether to enable Key Vault for template deployment or not."
+      },
+      "defaultValue": false
+    },
+    "keyVaultAccessPoliciesForSecret": {
+      "type": "string",
+      "metadata": {
+        "description": "Comma delimited list of access policies to Key Vault secrets"
+      },
+      "defaultValue": "List,Get,Backup,Restore"
+    },
+    "linkedTemplatesUri": {
+      "type": "string",
+      "metadata": {
+        "description": "GitHub raw URI to use the linked templates."
+      }
+    },
+    "author": {
+      "type": "string",
+      "metadata": {
+        "description": "Author in tags"
+      },
+      "defaultValue": "Justin Yoo"
+    },
+    "profile": {
+      "type": "string",
+      "metadata": {
+        "description": "Profile in tags"
+      },
+      "defaultValue": "https://twitter.com/justinchronicle"
+    },
+    "projectUrl": {
+      "type": "string",
+      "metadata": {
+        "description": "Project URL in tags"
+      },
+      "defaultValue": "https://github.com/microsoft/25-days-of-serverless"
+    },
+    "repositoryUrl": {
+      "type": "string",
+      "metadata": {
+        "description": "Repository URL in tags"
+      },
+      "defaultValue": "https://github.com/microsoft/25-days-of-serverless"
+    },
+    "license": {
+      "type": "string",
+      "metadata": {
+        "description": "License in tags"
+      },
+      "defaultValue": "https://raw.githubusercontent.com/microsoft/25-days-of-serverless/master/LICENSE"
+    }
+  },
+  "variables": {
+    "deployments": {
+      "storageAccount": "[concat('st-', guid(resourceGroup().id, deployment().name))]",
+      "appInsights": "[concat('appins-', guid(resourceGroup().id, deployment().name))]",
+      "consumptionPlan": "[concat('csplan-', guid(resourceGroup().id, deployment().name))]",
+      "functionApp": "[concat('fncapp-', guid(resourceGroup().id, deployment().name))]",
+      "keyVault": "[concat('kv-', guid(resourceGroup().id, deployment().name))]"
+    },
+    "linked": {
+      "apiVersion": "[providers('Microsoft.Resources', 'deployments').apiVersions[0]]",
+      "templateLink": {
+        "uri": "[parameters('linkedTemplatesUri')]"
+      }
+    },
+    "storageAccount": {
+      "name": "[parameters('storageAccountName')]",
+      "locationCode": "[parameters('locationCode')]",
+      "sku": {
+        "name": "[parameters('storageAccountSkuName')]",
+        "tier": "[parameters('storageAccountSkuTier')]"
+      }
+    },
+    "appInsights": {
+      "name": "[parameters('appInsightsName')]",
+      "locationCode": "[parameters('locationCode')]",
+      "kind": "[parameters('appInsightsKind')]"
+    },
+    "consumptionPlan": {
+      "name": "[parameters('consumptionPlanName')]",
+      "locationCode": "[parameters('locationCode')]",
+      "kind": "[parameters('consumptionPlanKind')]",
+      "sku": {
+        "tier": "[parameters('consumptionPlanSkuTier')]",
+        "size": "[parameters('consumptionPlanSkuSize')]",
+        "name": "[parameters('consumptionPlanSkuName')]",
+        "family": "[parameters('consumptionPlanSkuFamily')]",
+        "capacity": "[parameters('consumptionPlanSkuCapacity')]"
+      }
+    },
+    "functionApp": {
+      "name": "[parameters('functionAppName')]",
+      "locationCode": "[parameters('locationCode')]",
+      "kind": "[parameters('functionAppKind')]",
+      "appSettings": {
+        "secretStorageType": "[parameters('functionAppSecretStorageType')]",
+        "extensionVersion": "[parameters('functionAppExtensionVersion')]",
+        "editMode": "[parameters('functionAppEditMode')]",
+        "workerRuntime": "[parameters('functionAppWorkerRuntime')]"
+      }
+    },
+    "keyVault": {
+      "names": "[split(parameters('keyVaultNames'), ',')]",
+      "locationCode": "[parameters('locationCode')]",
+      "sku": {
+        "name": "[parameters('keyVaultSkuName')]",
+        "family": "[parameters('keyVaultSkuFamily')]"
+      },
+      "enabledForDeployment": "[parameters('keyVaultEnabledForDeployment')]",
+      "enabledForDiskEncryption": "[parameters('keyVaultEnabledForDiskEncryption')]",
+      "enabledForTemplateDeployment": "[parameters('keyVaultEnabledForTemplateDeployment')]",
+      "accessPoliciesForSecret": "[parameters('keyVaultAccessPoliciesForSecret')]"
+    },
+    "tags": {
+      "author": "[parameters('author')]",
+      "profile": "[parameters('profile')]",
+      "projectUrl": "[parameters('projectUrl')]",
+      "repositoryUrl": "[parameters('repositoryUrl')]",
+      "license": "[parameters('license')]"
+    }
+  },
+  "resources": [
+    {
+      "comments": "### RESOURCE - STORAGE ACCOUNT ###",
+      "apiVersion": "[variables('linked').apiVersion]",
+      "type": "Microsoft.Resources/deployments",
+      "name": "[variables('deployments').storageAccount]",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[replace(variables('linked').templateLink.uri, '{0}', 'storageAccount')]"
+        },
+        "parameters": {
+          "name": {
+            "value": "[variables('storageAccount').name]"
+          },
+          "locationCode": {
+            "value": "[variables('storageAccount').locationCode]"
+          },
+          "skuName": {
+            "value": "[variables('storageAccount').sku.name]"
+          },
+          "skuTier": {
+            "value": "[variables('storageAccount').sku.tier]"
+          },
+          "author": {
+            "value": "[variables('tags').author]"
+          },
+          "profile": {
+            "value": "[variables('tags').profile]"
+          },
+          "projectUrl": {
+            "value": "[variables('tags').projectUrl]"
+          },
+          "repositoryUrl": {
+            "value": "[variables('tags').repositoryUrl]"
+          },
+          "license": {
+            "value": "[variables('tags').license]"
+          }
+        }
+      }
+    },
+    {
+      "comments": "### RESOURCE - APPLICATION INSIGHTS ###",
+      "apiVersion": "[variables('linked').apiVersion]",
+      "type": "Microsoft.Resources/deployments",
+      "name": "[variables('deployments').appInsights]",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[replace(variables('linked').templateLink.uri, '{0}', 'applicationInsights')]"
+        },
+        "parameters": {
+          "name": {
+            "value": "[variables('appInsights').name]"
+          },
+          "locationCode": {
+            "value": "[variables('appInsights').locationCode]"
+          },
+          "kind": {
+            "value": "[variables('appInsights').kind]"
+          },
+          "author": {
+            "value": "[variables('tags').author]"
+          },
+          "profile": {
+            "value": "[variables('tags').profile]"
+          },
+          "projectUrl": {
+            "value": "[variables('tags').projectUrl]"
+          },
+          "repositoryUrl": {
+            "value": "[variables('tags').repositoryUrl]"
+          },
+          "license": {
+            "value": "[variables('tags').license]"
+          }
+        }
+      }
+    },
+    {
+      "comments": "### RESOURCE - CONSUMPTION PLAN ###",
+      "apiVersion": "[variables('linked').apiVersion]",
+      "type": "Microsoft.Resources/deployments",
+      "name": "[variables('deployments').consumptionPlan]",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[replace(variables('linked').templateLink.uri, '{0}', 'consumptionPlan')]"
+        },
+        "parameters": {
+          "name": {
+            "value": "[variables('consumptionPlan').name]"
+          },
+          "locationCode": {
+            "value": "[variables('consumptionPlan').locationCode]"
+          },
+          "kind": {
+            "value": "[variables('consumptionPlan').kind]"
+          },
+          "skuTier": {
+            "value": "[variables('consumptionPlan').sku.tier]"
+          },
+          "skuSize": {
+            "value": "[variables('consumptionPlan').sku.size]"
+          },
+          "skuName": {
+            "value": "[variables('consumptionPlan').sku.name]"
+          },
+          "skuFamily": {
+            "value": "[variables('consumptionPlan').sku.family]"
+          },
+          "skuCapacity": {
+            "value": "[variables('consumptionPlan').sku.capacity]"
+          },
+          "author": {
+            "value": "[variables('tags').author]"
+          },
+          "profile": {
+            "value": "[variables('tags').profile]"
+          },
+          "projectUrl": {
+            "value": "[variables('tags').projectUrl]"
+          },
+          "repositoryUrl": {
+            "value": "[variables('tags').repositoryUrl]"
+          },
+          "license": {
+            "value": "[variables('tags').license]"
+          }
+        }
+      }
+    },
+    {
+      "comments": "### RESOURCE - FUNCTION APP ###",
+      "apiVersion": "[variables('linked').apiVersion]",
+      "type": "Microsoft.Resources/deployments",
+      "name": "[variables('deployments').functionApp]",
+      "dependsOn": [
+        "[variables('deployments').storageAccount]",
+        "[variables('deployments').appInsights]",
+        "[variables('deployments').consumptionPlan]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[replace(variables('linked').templateLink.uri, '{0}', 'functionApp')]"
+        },
+        "parameters": {
+          "name": {
+            "value": "[variables('functionApp').name]"
+          },
+          "locationCode": {
+            "value": "[variables('functionApp').locationCode]"
+          },
+          "storageAccountName": {
+            "value": "[variables('storageAccount').name]"
+          },
+          "appInsightsName": {
+            "value": "[variables('appInsights').name]"
+          },
+          "consumptionPlanName": {
+            "value": "[variables('consumptionPlan').name]"
+          },
+          "kind": {
+            "value": "[variables('functionApp').kind]"
+          },
+          "secretStorageType": {
+            "value": "[variables('functionApp').appSettings.secretStorageType]"
+          },
+          "extensionVersion": {
+            "value": "[variables('functionApp').appSettings.extensionVersion]"
+          },
+          "editMode": {
+            "value": "[variables('functionApp').appSettings.editMode]"
+          },
+          "workerRuntime": {
+            "value": "[variables('functionApp').appSettings.workerRuntime]"
+          },
+          "author": {
+            "value": "[variables('tags').author]"
+          },
+          "profile": {
+            "value": "[variables('tags').profile]"
+          },
+          "projectUrl": {
+            "value": "[variables('tags').projectUrl]"
+          },
+          "repositoryUrl": {
+            "value": "[variables('tags').repositoryUrl]"
+          },
+          "license": {
+            "value": "[variables('tags').license]"
+          }
+        }
+      }
+    },
+    {
+      "comments": "### RESOURCE - KEY VAULT ###",
+      "apiVersion": "[variables('linked').apiVersion]",
+      "type": "Microsoft.Resources/deployments",
+      "name": "[concat(variables('deployments').keyVault, '-', copyIndex())]",
+      "dependsOn": [
+        "[variables('deployments').functionApp]"
+      ],
+      "copy": {
+        "name": "keyVaultCopy",
+        "count": "[length(variables('keyVault').names)]"
+      },
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[replace(variables('linked').templateLink.uri, '{0}', 'keyVault.functionApp')]"
+        },
+        "parameters": {
+          "name": {
+            "value": "[variables('keyVault').names[copyIndex()]]"
+          },
+          "locationCode": {
+            "value": "[variables('keyVault').locationCode]"
+          },
+          "functionAppName": {
+            "value": "[variables('functionApp').name]"
+          },
+          "skuName": {
+            "value": "[variables('keyVault').sku.name]"
+          },
+          "skuFamily": {
+            "value": "[variables('keyVault').sku.family]"
+          },
+          "enabledForDeployment": {
+            "value": "[variables('keyVault').enabledForDeployment]"
+          },
+          "enabledForDiskEncryption": {
+            "value": "[variables('keyVault').enabledForDiskEncryption]"
+          },
+          "enabledForTemplateDeployment": {
+            "value": "[variables('keyVault').enabledForTemplateDeployment]"
+          },
+          "accessPoliciesForSecret": {
+            "value": "[variables('keyVault').accessPoliciesForSecret]"
+          },
+          "author": {
+            "value": "[variables('tags').author]"
+          },
+          "profile": {
+            "value": "[variables('tags').profile]"
+          },
+          "projectUrl": {
+            "value": "[variables('tags').projectUrl]"
+          },
+          "repositoryUrl": {
+            "value": "[variables('tags').repositoryUrl]"
+          },
+          "license": {
+            "value": "[variables('tags').license]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}

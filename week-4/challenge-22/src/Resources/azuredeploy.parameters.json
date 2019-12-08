@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "locationCode": {
+      "value": "[LOCATION_CODE]"
+    },
+    "storageAccountName": {
+      "value": "[STORAGE_ACCOUNT_NAME]"
+    },
+    "appInsightsName": {
+      "value": "[APPLICATION_INSIGHTS_NAME]"
+    },
+    "consumptionPlanName": {
+      "value": "[CONSUMPTION_PLAN_NAME]"
+    },
+    "functionAppName": {
+      "value": "[FUNCTION_APP_NAME]"
+    },
+    "keyVaultNames": {
+      "value": "[KEY_VAULT_NAMES]"
+    },
+    "linkedTemplatesUri": {
+      "value": "https://raw.githubusercontent.com/devkimchi/Key-Vault-Backup-Restore-Sample/master/src/Resources/{0}.json"
+    }
+  }
+}
