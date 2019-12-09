@@ -243,7 +243,8 @@
       "type": "string",
       "metadata": {
         "description": "GitHub raw URI to use the linked templates."
-      }
+      },
+      "defaultValue": "https://raw.githubusercontent.com/devkimchi/Key-Vault-Backup-Restore-Sample/master/src/Resources/{0}.json"
     },
     "author": {
       "type": "string",
@@ -264,21 +265,21 @@
       "metadata": {
         "description": "Project URL in tags"
       },
-      "defaultValue": "https://github.com/microsoft/25-days-of-serverless"
+      "defaultValue": "https://github.com/justinyoo/25-days-of-serverless"
     },
     "repositoryUrl": {
       "type": "string",
       "metadata": {
         "description": "Repository URL in tags"
       },
-      "defaultValue": "https://github.com/microsoft/25-days-of-serverless"
+      "defaultValue": "https://github.com/justinyoo/25-days-of-serverless"
     },
     "license": {
       "type": "string",
       "metadata": {
         "description": "License in tags"
       },
-      "defaultValue": "https://raw.githubusercontent.com/microsoft/25-days-of-serverless/master/LICENSE"
+      "defaultValue": "https://raw.githubusercontent.com/justinyoo/25-days-of-serverless/master/LICENSE"
     }
   },
   "variables": {

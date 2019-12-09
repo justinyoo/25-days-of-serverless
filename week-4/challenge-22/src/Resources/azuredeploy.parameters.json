@@ -19,9 +19,6 @@
     },
     "keyVaultNames": {
       "value": "[KEY_VAULT_NAMES]"
-    },
-    "linkedTemplatesUri": {
-      "value": "https://raw.githubusercontent.com/devkimchi/Key-Vault-Backup-Restore-Sample/master/src/Resources/{0}.json"
     }
   }
 }
