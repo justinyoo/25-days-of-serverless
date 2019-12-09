@@ -6,9 +6,11 @@ Welcome to Korea in this festive season! It's Winter Solstice today. Traditional
 
 ![porridge](red-bean-porridge.png)
 
-Oh no! Cheol-soo missed the porridge tonight. He's in danger to get caught by the grim reaper! We need to keep him in a safe place and lock the door until the next day; the Sun is rising. His best friend Young-hee locked the door and got the secret code to open it. Then she managed to store the secret into Azure Key Vault, but how smart the grim reaper is!!
+Oh no! Cheol-soo missed the porridge tonight. He's in danger to get caught by the grim reaper! We need to keep him in a safe place and lock the door until the next day; the Sun is rising. His best friend Young-hee locked the door and got the secret code to open it.
 
-The grim reaper is trying to destroy the Key Vault so that Cheol-soo can't get out of the safe place forever! If Young-hee can't find out how to backup and restore the Key Vault, he will die in there!
+![memo](memo.png)
+
+Then she managed to store the secret into Azure Key Vault, but how smart the grim reaper is!! The grim reaper is trying to destroy the Key Vault so that Cheol-soo can't get out of the safe place forever! If Young-hee can't find out how to backup and restore the Key Vault, he will die in there!
 
 She needs to back it up before the grim reaper destroys it. And she also needs to restore it even if the grim reaper demolishes the Key Vault. How can we help Young-hee backup and restore Key Vault secret?
 
